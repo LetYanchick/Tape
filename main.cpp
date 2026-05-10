@@ -5,7 +5,6 @@
 #include "config.h"
 #include "FileTape.h"
 #include "sorting.h"
-#include <windows.h>
 #include <typeinfo>
 
 
