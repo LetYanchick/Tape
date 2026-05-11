@@ -50,26 +50,21 @@ TEST(FileTapeTest, MoveAndRewind) {
 
     FileTape tape(fn, true, no_delays());
     for (int i = 1; i <= 5; ++i)
-        tape.write(i);
-    // позиция 5, size=5, isEnd
+        tape.write(i); // позиции от 0 до 4 и элементы [1,2,3,4,5].
 
     tape.rewind(0);
     EXPECT_EQ(tape.position(), 0);
-    EXPECT_EQ(tape.read(), 1);
+    EXPECT_EQ(tape.read(), 1); // позиция теперь 1 (после чтения прибавляется)
 
-    // два шага вперёд (после read мы уже на 1, двигаем ещё на 2 -> 3)
-    tape.moveForward();
-    tape.moveForward();
+    tape.moveForward(); // поз 2
+    tape.moveForward(); // поз 3
     EXPECT_EQ(tape.position(), 3);
-    // Теперь читаем (с позиции 3)
-    EXPECT_EQ(tape.read(), 4);   // на позиции 3 было 4? Уточним: после записи элементы: [1,2,3,4,5]. Позиция 0:1, 1:2, 2:3, 3:4. Значит, на позиции 3 – 4. read() возвращает 4 и перемещает на 4.
-    // После read позиция 4 (читали 4, потом ++current_pos)
-    // Двинем назад на 1 (на позицию 3) и прочитаем снова 4
-    tape.moveBackward();
-    EXPECT_EQ(tape.read(), 4);   // опять 4
-    // Перемотка в середину
-    tape.rewind(2);
-    EXPECT_EQ(tape.read(), 3);   // позиция 2 -> 3
+    EXPECT_EQ(tape.read(), 4);   // на позиции 3 записано 4, и после этого позиция + 1 (т.е. поз = 4)
+
+    tape.moveBackward(); // поз 3
+    EXPECT_EQ(tape.read(), 4);   // 4
+    tape.rewind(2); 
+    EXPECT_EQ(tape.read(), 3);   // на позиции 2 элемент 3
 
     std::remove(fn.c_str());
 }
@@ -101,7 +96,7 @@ TEST(FileTapeTest, ReadPastEndThrows) {
     std::remove(fn.c_str());
     FileTape tape(fn, true, no_delays());
     tape.write(7);
-    tape.rewind(0);               // ← возвращаем головку в начало
+    tape.rewind(0);               // возвращаемся в начало
     EXPECT_EQ(tape.read(), 7);    // теперь читаем первое (и единственное) число
     EXPECT_THROW(tape.read(), std::out_of_range); // повторное чтение вызовет исключение
     std::remove(fn.c_str());

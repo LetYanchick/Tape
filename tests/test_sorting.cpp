@@ -19,7 +19,7 @@ static DelayConfig no_delays() {
     };
 }
 
-// Фабрики для тестов: одна создаёт, другая открывает
+// Фабрики для тестов
 static auto makeCreateFactory(const DelayConfig& d = no_delays()) {
     return [d](const std::string& name) -> std::unique_ptr<Tape> {
         return std::make_unique<FileTape>(name, true, d);
@@ -100,9 +100,7 @@ TEST(TapeSorterTest, SortEmptyInput) {
         FileTape input(inFile, false, no_delays());
         FileTape output(outFile, true, no_delays());
 
-        TapeSorter::sort(input, output,
-                         makeCreateFactory(), makeOpenFactory(),
-                         10, 4, tmpDir);
+        TapeSorter::sort(input, output, makeCreateFactory(), makeOpenFactory(), 10, 4, tmpDir);
     }
 
     FileTape result(outFile, false, no_delays());
@@ -165,9 +163,7 @@ TEST(TapeSorterTest, SortAlreadySorted) {
         FileTape input(inFile, false, no_delays());
         FileTape output(outFile, true, no_delays());
 
-        TapeSorter::sort(input, output,
-                         makeCreateFactory(), makeOpenFactory(),
-                         3, 2, tmpDir);
+        TapeSorter::sort(input, output, makeCreateFactory(), makeOpenFactory(), 3, 2, tmpDir);
     }
 
     FileTape result(outFile, false, no_delays());
