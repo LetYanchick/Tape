@@ -1,7 +1,0 @@
-<Solution>
-  <Configurations>
-    <Platform Name="x64" />
-    <Platform Name="x86" />
-  </Configurations>
-  <Project Path="yadro.vcxproj" Id="b05b50af-1786-4b50-b673-fcaee4aa1dc0" />
-</Solution>
