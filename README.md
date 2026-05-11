@@ -41,3 +41,9 @@ od -An -td4 -w4 output.dat | head -n 10
 Запуск всего из папки
 g++ -std=c++17 -o tape *.cpp
 ./tape input.dat output.dat config.ini 524288 32
+
+Юнит-есты CMake
+создать папку build и в ней сделать 
+cmake ..
+make
+./test_runner
